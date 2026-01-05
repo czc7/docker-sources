@@ -1,0 +1,27 @@
+# FW_DST=
+# LOCAL_PORT=
+# NOVNC_PORT=
+# NOVNC_PASSWORD=
+
+services:
+  ec:
+    image: ghcr.io/czc7/easyconnect:7.6.7
+    restart: unless-stopped
+    environment:
+      - URLWIN=1
+      - USE_NOVNC=1
+      - PASSWORD=${NOVNC_PASSWORD}
+      - FW_SRC0=7022
+      - FW_DST0=${FW_DST}
+    volumes:
+      - ecdata:/root
+    devices:
+      - /dev/net/tun
+    cap_add:
+      - NET_ADMIN
+    ports:
+      - "${LOCAL_PORT}:7022"
+      - "${NOVNC_PORT}:8080"
+
+volumes:
+  ecdata:
